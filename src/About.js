@@ -8,8 +8,9 @@ class About extends React.Component {
           {" "}
           Doctor Ramya Devi T, BHMS., SCPH., practicing homoeopathy for more
           than 10 years; Doctor's knowledge and right care helping many families
-          to improve health & better life. Inpire your life with Homoeopathy.{" "}
-        </div>
+          to improve health & better life.
+        </div>{" "}
+        Inspire your life with Homoeopathy.
       </div>
     );
   }

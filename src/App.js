@@ -21,11 +21,17 @@ function App() {
     return response.data;
   };
 
-  const addUserHandler = (user) => {
-    setUsers([...users, { id: uuid(), ...user }]);
+  const addUserHandler = async (user) => {
+    const req = {
+      id: uuid(),
+      ...user
+    };
+    const res = await api.post("/users", req);
+    setUsers([...users, res.data]);
   };
 
-  const deleteUserHandler = (id) => {
+  const deleteUserHandler = async (id) => {
+    await api.delete(`/users/${id}`);
     const newUserlist = users.filter((user) => {
       return user.id !== id;
     });
