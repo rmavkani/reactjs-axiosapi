@@ -8,11 +8,21 @@ const UserList = (props) => {
   const deleteUserHandler = (id) => {
     props.getUserId(id);
   };
-  const renderUD = props.users.map((user) => {
-    return (
-      <UserDetail user={user} clickHandler={deleteUserHandler} key={user.id} />
-    );
-  });
+
+  let renderUD;
+  if (props.users) {
+    renderUD = props.users.map((user) => {
+      return (
+        <UserDetail
+          user={user}
+          clickHandler={deleteUserHandler}
+          key={user.id}
+        />
+      );
+    });
+  } else {
+    renderUD = "User Not yet Registered with us!";
+  }
 
   return (
     <div className="main">
