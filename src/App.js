@@ -9,10 +9,17 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./App.css";
 import About from "./About";
+import api from "./api/users";
 
 function App() {
   const LOCAL_STORAGE_KEY = "users";
   const [users, setUsers] = useState([]);
+
+  //Retrieve Users from DB
+  const retrieveUsers = async () => {
+    const response = await api.get("/users");
+    return response.data;
+  };
 
   const addUserHandler = (user) => {
     setUsers([...users, { id: uuid(), ...user }]);
@@ -24,12 +31,18 @@ function App() {
     });
     setUsers(newUserlist);
   };
+
   useEffect(() => {
-    const retrieveUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    setUsers(retrieveUser);
+    //const retrieveUser = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    //setUsers(retrieveUser);
+    const getAllUsers = async () => {
+      const allUsers = await retrieveUsers();
+      if (allUsers) setUsers(allUsers);
+    };
+    getAllUsers();
   }, []);
   useEffect(() => {
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(users));
+    //    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(users));
   }, [users]);
 
   return (

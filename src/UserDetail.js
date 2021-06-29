@@ -1,6 +1,5 @@
 import React from "react";
 import icon from "./icon.png";
-import { Redirect } from "react-router-dom";
 
 const UserDetail = (props) => {
   const { id, name, mail } = props.user;

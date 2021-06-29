@@ -23,7 +23,6 @@ const UserList = (props) => {
   } else {
     renderUD = "User Not yet Registered with us!";
   }
-
   return (
     <div className="main">
       <h3> Registered Users</h3>
