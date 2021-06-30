@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import "./App.css";
 import About from "./About";
 import api from "./api/users";
+import UserUpdate from "./UserUpdate";
 
 function App() {
   const LOCAL_STORAGE_KEY = "users";
@@ -28,6 +29,16 @@ function App() {
     };
     const res = await api.post("/users", req);
     setUsers([...users, res.data]);
+  };
+
+  const updateUserHandler = async (user) => {
+    const resp = await api.put(`/users/${user.id}`, user);
+    const { id, name, mail } = resp.data;
+    setUsers(
+      users.map((user) => {
+        return user.id === id ? { ...resp.data } : user;
+      })
+    );
   };
 
   const deleteUserHandler = async (id) => {
@@ -72,6 +83,13 @@ function App() {
               exact
               render={(props) => (
                 <UserRegistration {...props} addUserHandler={addUserHandler} />
+              )}
+            />
+            <Route
+              path="/update"
+              exact
+              render={(props) => (
+                <UserUpdate {...props} updateUserHandler={updateUserHandler} />
               )}
             />
             <Route
