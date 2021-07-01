@@ -15,6 +15,8 @@ import UserUpdate from "./UserUpdate";
 function App() {
   const LOCAL_STORAGE_KEY = "users";
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
 
   //Retrieve Users from DB
   const retrieveUsers = async () => {
@@ -47,6 +49,21 @@ function App() {
       return user.id !== id;
     });
     setUsers(newUserlist);
+  };
+
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newUserList = users.filter((user) => {
+        return Object.values(user)
+          .join("")
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      });
+      setSearchResult(newUserList);
+    } else {
+      setSearchResult(users);
+    }
   };
 
   useEffect(() => {
@@ -98,8 +115,10 @@ function App() {
               render={(props) => (
                 <UserList
                   {...props}
-                  users={users}
+                  users={searchTerm.length < 1 ? users : searchResult}
                   getUserId={deleteUserHandler}
+                  term={searchTerm}
+                  searchKeyword={searchHandler}
                 />
               )}
             />
